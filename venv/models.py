@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+#from flask_marshmallow import fields
+from datetime import datetime
 
 from os.path import dirname, abspath, join
 
@@ -35,25 +37,28 @@ class Post(db.Model):
     user_id = db.Column(db.String, db.ForeignKey("user.user_id"))
     title = db.Column(db.String)
     description = db.Column(db.String)
-    created_date = db.Column(db.DateTime)
-    updated_date = db.Column(db.DateTime)
-    URLs = db.relationship("URL", backref="post")
+    icon = db.Column(db.String)
+    created_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    updated_date = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+    # URLs = db.relationship("URL", backref="post")
 
 class PostSchema(ma.Schema):
     class Meta:
-        fields = ("post_id","user_id","title","description","created_date","updated_date","URLs")
+        fields = ("post_id","user_id","title","description","icon","created_date","updated_date")
+    #     fields = ("post_id","user_id","title","description","icon","created_date","updated_date","URLs")
+    # URLs = fields.List() #上手く動かない
 
 post_schema = PostSchema()
 posts_schema = PostSchema(many = True)
 
-class URL(db.Model):
-    url_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    post_id = db.Column(db.Integer, db.ForeignKey("post.post_id"))
-    URL = db.Column(db.String)
+# class URL(db.Model):
+#     url_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+#     post_id = db.Column(db.Integer, db.ForeignKey("post.post_id"))
+#     URL = db.Column(db.String)
 
-class URLSchema(ma.Schema):
-    class Meta:
-        fields = ("url_id","post_id","URL")
+# class URLSchema(ma.Schema):
+#     class Meta:
+#         fields = ("url_id","post_id","URL")
 
-url_schema = URLSchema()
-urls_schema = URLSchema(many = True)
+# url_schema = URLSchema()
+# urls_schema = URLSchema(many = True)
