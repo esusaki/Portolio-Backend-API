@@ -66,7 +66,12 @@ def create_post(user_id):
 
 # DELETE
 ## 指定されたpost_idの投稿の削除
-# @app.route("/api/v1/post/<post_id>", methods = ["DELETE"])
+@app.route("/api/v1/post/<post_id>", methods = ["DELETE"])
+def delete_post(post_id):
+    target_post = db.session.get(Post, post_id)
+    db.session.delete(target_post)
+    db.session.commit()
+    return jsonify(post_schema.dump(target_post))
 
 if __name__ == "__main__":
     app.run(debug=True)
