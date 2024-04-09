@@ -32,6 +32,7 @@ class UserSchema(ma.Schema):
 user_schema = UserSchema()
 users_schema = UserSchema(many = True)
 
+
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     user_id = db.Column(db.String, db.ForeignKey("user.user_id"))
@@ -50,6 +51,19 @@ class PostSchema(ma.Schema):
 
 post_schema = PostSchema()
 posts_schema = PostSchema(many = True)
+
+def func_like_user_schema(_user_):
+    ans = {}
+    ans["user_id"] = _user_.user_id
+    ans["username"] = _user_.username
+    ans["bio"] = _user_.bio
+    ans["X"] = _user_.X
+    posts_by_user = []
+    for post in _user_.posts:
+        posts_by_user.append(post_schema.dump(post))
+    ans["posts"] = posts_by_user
+    print(ans)
+    return ans
 
 # class URL(db.Model):
 #     url_id = db.Column(db.Integer, primary_key = True, autoincrement = True)

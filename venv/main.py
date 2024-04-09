@@ -1,5 +1,5 @@
 # from models import app, db, User, user_schema, posts_schema, Post, URLSchema, URL, post_schema
-from models import app, db, User, user_schema, posts_schema, Post, post_schema
+from models import app, db, User, user_schema, posts_schema, Post, post_schema, func_like_user_schema
 from flask import request, jsonify
 
 # GET
@@ -8,7 +8,7 @@ from flask import request, jsonify
 def get_user(user_id):
     target_user = db.session.get(User, user_id)
     # tartget_userがリスト
-    return jsonify(user_schema.dump(target_user))
+    return jsonify(func_like_user_schema(target_user))
 
 ## 指定されたuser_idのユーザーの投稿一覧の取得
 @app.route("/api/v1/posts/<user_id>", methods = ["GET"])
@@ -41,11 +41,10 @@ def create_post(user_id):
         title = request.json["title"],
         description = request.json["description"],
         icon = request.json["icon"]
-        # URLs = request.json["URL"]
+        #URLs = request.json["URL"]
     )
     db.session.add(new_post)
     db.session.commit()
-    # URLs = request.json.get("URLs", []) 
     # for url in URLs:
     #     print(new_post.post_id)
     #     print("aiueo")
