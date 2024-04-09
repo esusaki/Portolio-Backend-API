@@ -1,0 +1,59 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+
+from os.path import dirname, abspath, join
+
+current_dir = dirname(abspath(__file__))
+
+# SQLiteデータベースファイルの絶対パスを作成
+db_file_path = join(current_dir, "var","models-instance", "database.db")
+
+app = Flask(__name__)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_file_path
+
+db = SQLAlchemy(app)
+ma = Marshmallow(app)
+
+class User(db.Model):
+    user_id = db.Column(db.String, primary_key = True)
+    username = db.Column(db.String)
+    bio = db.Column(db.String)
+    X = db.Column(db.String)
+    posts = db.relationship("Post", backref = "user")
+
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ("user_id","username","bio","X","posts")
+
+user_schema = UserSchema()
+users_schema = UserSchema(many = True)
+
+class Post(db.Model):
+    post_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    user_id = db.Column(db.String, db.ForeignKey("user.user_id"))
+    title = db.Column(db.String)
+    description = db.Column(db.String)
+    created_date = db.Column(db.DateTime)
+    updated_date = db.Column(db.DateTime)
+    URLs = db.relationship("URL", backref="post")
+
+class PostSchema(ma.Schema):
+    class Meta:
+        fields = ("post_id","user_id","title","description","created_date","updated_date","URLs")
+
+post_schema = PostSchema()
+posts_schema = PostSchema(many = True)
+
+class URL(db.Model):
+    url_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    post_id = db.Column(db.Integer, db.ForeignKey("post.post_id"))
+    URL = db.Column(db.String)
+
+class URLSchema(ma.Schema):
+    class Meta:
+        fields = ("url_id","post_id","URL")
+
+url_schema = URLSchema()
+urls_schema = URLSchema(many = True)
