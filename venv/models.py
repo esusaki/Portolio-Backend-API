@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 #from flask_marshmallow import fields
 from datetime import datetime
+from flask_cors import CORS
 
 from os.path import dirname, abspath, join
 
@@ -12,6 +13,8 @@ current_dir = dirname(abspath(__file__))
 db_file_path = join(current_dir, "var","models-instance", "database.db")
 
 app = Flask(__name__)
+
+CORS(app, resources={"*":{"origins":"http://localhost:3000"}})
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_file_path
 
@@ -25,13 +28,14 @@ class User(db.Model):
     X = db.Column(db.String)
     posts = db.relationship("Post", backref = "user")
 
-class UserSchema(ma.Schema):
-    class Meta:
-        fields = ("user_id","username","bio","X","posts")
 
-user_schema = UserSchema()
-users_schema = UserSchema(many = True)
+# postsのリスト部分をうまく変換できないという問題が起きているため一旦user_schemaは使わない(func_like_user_schemaを使う)
+#class UserSchema(ma.Schema):
+#    class Meta:
+#        fields = ("user_id","username","bio","X","posts")
 
+#user_schema = UserSchema()
+#users_schema = UserSchema(many = True)
 
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
@@ -62,7 +66,6 @@ def func_like_user_schema(_user_):
     for post in _user_.posts:
         posts_by_user.append(post_schema.dump(post))
     ans["posts"] = posts_by_user
-    print(ans)
     return ans
 
 # class URL(db.Model):

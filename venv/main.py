@@ -1,5 +1,5 @@
 # from models import app, db, User, user_schema, posts_schema, Post, URLSchema, URL, post_schema
-from models import app, db, User, user_schema, posts_schema, Post, post_schema, func_like_user_schema
+from models import app, db, User, posts_schema, Post, post_schema, func_like_user_schema
 from flask import request, jsonify
 
 # GET
@@ -59,14 +59,26 @@ def create_post(user_id):
 
 # PUT
 ## 指定されたuser_idのユーザーの情報の更新
-# @app.route("/api/v1/user/<user_id>", methods = ["PUT"])
+## とりあえず後から変える可能性があるのはbio, Xのみという設定
+@app.route("/api/v1/user/<user_id>", methods = ["PUT"])
+def update_user(user_id):
+    target_user = db.session.get(User, user_id)
+    target_user.bio = request.json["bio"]
+    target_user.X = request.json["X"]
+    db.session.commit()
+    return jsonify(func_like_user_schema(target_user))
 
 ## 指定されたpost_idの投稿の更新
 # @app.route("/api/v1/post/<post_id>", methods = ["PUT"])
 
 # DELETE
 ## 指定されたpost_idの投稿の削除
-# @app.route("/api/v1/post/<post_id>", methods = ["DELETE"])
+@app.route("/api/v1/post/<post_id>", methods = ["DELETE"])
+def delete_post(post_id):
+    target_post = db.session.get(Post, post_id)
+    db.session.delete(target_post)
+    db.session.commit()
+    return jsonify(post_schema.dump(target_post))
 
 if __name__ == "__main__":
     app.run(debug=True)
