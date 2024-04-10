@@ -81,7 +81,14 @@ def update_user(user_id):
     return jsonify(func_like_user_schema(target_user))
 
 ## 指定されたpost_idの投稿の更新
-# @app.route("/api/v1/post/<post_id>", methods = ["PUT"])
+@app.route("/api/v1/post/<post_id>", methods = ["PUT"])
+def update_post(post_id):
+    target_post = db.session.get(Post, post_id)
+    target_post.title = request.json["title"]
+    target_post.description = request.json["description"]
+    target_post.icon = request.json["icon"]
+    db.session.commit()
+    return jsonify(post_schema.dump(target_post))
 
 # DELETE
 ## 指定されたpost_idの投稿の削除
