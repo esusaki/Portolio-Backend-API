@@ -25,13 +25,12 @@ class User(db.Model):
     X = db.Column(db.String)
     posts = db.relationship("Post", backref = "user")
 
-class UserSchema(ma.Schema):
-    class Meta:
-        fields = ("user_id","username","bio","X","posts")
+#class UserSchema(ma.Schema):
+#    class Meta:
+#        fields = ("user_id","username","bio","X","posts")
 
-user_schema = UserSchema()
-users_schema = UserSchema(many = True)
-
+#user_schema = UserSchema()
+#users_schema = UserSchema(many = True)
 
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
