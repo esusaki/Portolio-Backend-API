@@ -6,9 +6,14 @@ from flask import request, jsonify
 ## 指定されたuser_idのユーザーの情報の取得
 @app.route("/api/v1/user/<user_id>", methods = ["GET"])
 def get_user(user_id):
+    # if user_id in :
+    #     target_user = db.session.get(User, user_id)
+    #     # tartget_userがリスト
+    #     return jsonify(func_like_user_schema(target_user)), 200
+    # else:
+    #     return jsonify({"error":"User not found"}), 404
     target_user = db.session.get(User, user_id)
-    # tartget_userがリスト
-    return jsonify(func_like_user_schema(target_user))
+    return jsonify(func_like_user_schema(target_user)), 200
 
 ## 指定されたuser_idのユーザーの投稿一覧の取得
 @app.route("/api/v1/posts/<user_id>", methods = ["GET"])
@@ -21,16 +26,18 @@ def get_posts(user_id):
 @app.route("/api/v1/post/<post_id>", methods = ["GET"])
 def get_post_info(post_id):
     target_post = db.session.get(Post, post_id)
-    target_post_info = Post(
-        post_id = post_id,
-        user_id = target_post.user_id,
-        title = target_post.title,
-        description = target_post.description,
-        icon = target_post.icon,
-        created_date = target_post.created_date,
-        updated_date = target_post.updated_date
-    )
-    return jsonify(post_schema.dump(target_post_info))
+    target_post_info = {
+        "post_id" : post_id,
+        "user_id" : target_post.user_id,
+        "title" : target_post.title,
+        "description" : target_post.description,
+        "icon" : target_post.icon,
+        "created_date" : target_post.created_date,
+        "updated_date" : target_post.updated_date,
+        "username" : target_post.user.username,
+        "usericon" : target_post.user.photo_url
+    }
+    return jsonify(target_post_info)
 
 #POST
 ## 新規ユーザーの作成
@@ -99,6 +106,7 @@ def delete_post(post_id):
     db.session.delete(target_post)
     db.session.commit()
     return jsonify(post_schema.dump(target_post))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
