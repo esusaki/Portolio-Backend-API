@@ -25,6 +25,8 @@ class User(db.Model):
     X = db.Column(db.String)
     posts = db.relationship("Post", backref = "user")
 
+
+# postsのリスト部分をうまく変換できないという問題が起きているため一旦user_schemaは使わない(func_like_user_schemaを使う)
 #class UserSchema(ma.Schema):
 #    class Meta:
 #        fields = ("user_id","username","bio","X","posts")
