@@ -27,6 +27,7 @@ class User(db.Model):
     bio = db.Column(db.String)
     X = db.Column(db.String)
     posts = db.relationship("Post", backref = "user")
+    photo_url = db.Column(db.String)
 
 
 # postsのリスト部分をうまく変換できないという問題が起きているため一旦user_schemaは使わない(func_like_user_schemaを使う)
@@ -62,6 +63,7 @@ def func_like_user_schema(_user_):
     ans["username"] = _user_.username
     ans["bio"] = _user_.bio
     ans["X"] = _user_.X
+    ans["photo_url"] = _user_.photo_url
     posts_by_user = []
     for post in _user_.posts:
         posts_by_user.append(post_schema.dump(post))

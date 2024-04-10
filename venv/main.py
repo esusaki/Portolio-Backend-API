@@ -39,8 +39,9 @@ def create_user():
     new_user = User(
         # bio, Xはデフォルトではnull値になる
         user_id = request.json["user_id"],
-        username = request.json["username"]
-        )
+        username = request.json["username"],
+        photo_url = request.json["photo_url"]
+    )
     db.session.add(new_user)
     db.session.commit()
     return jsonify(func_like_user_schema(new_user))
