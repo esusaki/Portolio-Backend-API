@@ -18,7 +18,19 @@ def get_posts(user_id):
     return jsonify(posts_schema.dump(target_posts))
 
 ## 指定されたuser_idのpost_idの情報の取得
-# @app.route("/api/v1/post/<post_id>", methods = ["GET"])
+@app.route("/api/v1/post/<post_id>", methods = ["GET"])
+def get_post_info(post_id):
+    target_post = db.session.get(Post, post_id)
+    target_post_info = Post(
+        post_id = post_id,
+        user_id = target_post.user_id,
+        title = target_post.title,
+        description = target_post.description,
+        icon = target_post.icon,
+        created_date = target_post.created_date,
+        updated_date = target_post.updated_date
+    )
+    return jsonify(post_schema.dump(target_post_info))
 
 #POST
 ## 新規ユーザーの作成
