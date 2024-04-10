@@ -43,7 +43,7 @@ def create_user():
         )
     db.session.add(new_user)
     db.session.commit()
-    return jsonify(user_schema.dump(new_user))
+    return jsonify(func_like_user_schema(new_user))
 
 ## 新規投稿の作成
 @app.route("/api/v1/post/<user_id>", methods = ["POST"])
