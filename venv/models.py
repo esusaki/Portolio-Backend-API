@@ -14,7 +14,7 @@ db_file_path = join(current_dir, "var","models-instance", "database.db")
 
 app = Flask(__name__)
 
-CORS(app, resources={"*":{"origins":"http://localhost:3000"}})
+CORS(app, resources={"*":{"origins":["http://localhost:3000", "https://portolio-zasetu.vercel.app"]}})
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_file_path
 
