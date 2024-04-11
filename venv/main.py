@@ -104,9 +104,11 @@ def create_post(user_id):
 # PUT
 ## 指定されたuser_idのユーザーの情報の更新
 ## とりあえず後から変える可能性があるのはbio, Xのみという設定
+## usernameも変更するように変更
 @app.route("/api/v1/user/<user_id>", methods = ["PUT"])
 def update_user(user_id):
     target_user = db.session.get(User, user_id)
+    target_user.username = request.json["username"]
     target_user.bio = request.json["bio"]
     target_user.X = request.json["X"]
     db.session.commit()
@@ -116,6 +118,9 @@ def update_user(user_id):
 @app.route("/api/v1/post/<post_id>", methods = ["PUT"])
 def update_post(post_id):
     target_post = db.session.get(Post, post_id)
+
+
+
     target_post.title = request.json["title"]
     target_post.description = request.json["description"]
     target_post.icon = request.json["icon"]
