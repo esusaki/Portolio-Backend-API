@@ -1,4 +1,21 @@
-## 起動方法
+# Portolioについて
+
+Portolioは、サポーターズ主催の技育ハッカソン（2024年4月）にて、即席チーム（5人）で作成したサイトです。
+
+バックエンドは、[@kuro](https://github.com/sp1st) と [@esusaki](https://github.com/esusaki) の2名で担当しました。
+
+こちらの [作品URL](https://portolio-zasetu.vercel.app/) から、実際に使うことができます。
+
+# 技術
+
+バックエンド側では、FlaskとSQLAlchemyを使用し、データベースとのやり取りを行うAPIを作成しました。
+
+APIのデプロイには、PythonAnywhereを使用しました。
+
+フロントの技術や、作品全体の説明については、[フロントのリポジトリ](https://github.com/balckowl/portolio) もあわせてご覧ください。
+
+
+# ローカルでのAPIの起動方法
 
 ### ①仮想環境をアクティブにする
 venvフォルダと同じ階層で、以下のコマンドを入力
