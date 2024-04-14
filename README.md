@@ -1,6 +1,6 @@
 # Portolioについて
 
-Portolioは、サポーターズ主催の技育ハッカソン（2024年4月）にて、即席チーム（5人）で作成したサイトです。
+Portolioは、サポーターズ主催の技育ハッカソン（2024年4月）にて、即席チーム（5人）で作成したサイトです。優秀賞を受賞しました。
 
 バックエンドは、[@kuro](https://github.com/sp1st) と [@esusaki](https://github.com/esusaki) の2名で担当しました。
 
