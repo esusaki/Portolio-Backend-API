@@ -7,7 +7,6 @@ os.environ["TZ"] = "Asia/Tokyo"
 
 time.tzset()
 time_now=datetime.datetime.now()
-print(time_now)
 
 # GET
 ## 指定されたuser_idのユーザーの情報の取得
