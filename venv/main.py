@@ -1,6 +1,12 @@
 # from models import app, db, User, user_schema, posts_schema, Post, URLSchema, URL, post_schema
 from models import app, db, User, posts_schema, Post, post_schema, func_like_user_schema
 from flask import request, jsonify
+import os, time, datetime
+
+os.environ["TZ"] = "Asia/Tokyo"
+
+time.tzset()
+time_now=datetime.datetime.now()
 
 # GET
 ## 指定されたuser_idのユーザーの情報の取得
